@@ -3,7 +3,7 @@
   "title": "Easy Exports",
   "description": "Easy Exports exports all Journals, Scenes, Actors, etc. with one click!",
   "author" : "Spetzel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "minimumCoreVersion": "0.6.5",
   "compatibleCoreVersion": "0.6.6",
   "languages": [{
@@ -11,10 +11,10 @@
     "name": "English",
     "path": "lang/en.json"
   }],
-  "esmodules" : ["modules/EasyExports.js""
+  "esmodules" : ["modules/EasyExports.js"
   ],
   "styles": ["css/easy-exports.css"],
-  "readme": "https://github.com/opus1217/easy-exports/blob/v0.1.0/README.md",
+  "readme": "https://github.com/opus1217/easy-exports/blob/master/README.md",
   "bugs": "https://github.com/opus1217/easy-exports/issues",
   "changelog": "https://github.com/opus1217/easy-exports/blob/master/CHANGELOG.md",
   "manifest": "https://raw.githubusercontent.com/opus1217/easy-exports/v0.1.1/module.json",
