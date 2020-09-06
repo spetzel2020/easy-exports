@@ -1,9 +1,9 @@
 {
-  "name": "quick-encounters",
-  "title": "Quick Encounters",
-  "description": "Save your Encounters in the Journal or pinned to the Scene and run them with one click!",
+  "name": "easy-exports",
+  "title": "Easy Exports",
+  "description": "Easy Exports exports all Journals, Scenes, Actors, etc. with one click!",
   "author" : "Spetzel",
-  "version": "0.1.2",
+  "version": "0.1.0",
   "minimumCoreVersion": "0.6.5",
   "compatibleCoreVersion": "0.6.6",
   "languages": [{
@@ -11,13 +11,13 @@
     "name": "English",
     "path": "lang/en.json"
   }],
-  "esmodules" : ["modules/QuickEncounter.js","modules/EncounterNotes.js"
+  "esmodules" : ["modules/EasyExports.js""
   ],
-  "styles": ["css/quick-encounters.css"],
-  "readme": "https://github.com/opus1217/quick-encounters/blob/v0.1.2/README.md",
-  "bugs": "https://github.com/opus1217/quick-encounters/issues",
-  "changelog": "https://github.com/opus1217/quick-encounters/blob/master/CHANGELOG.md",
-  "manifest": "https://raw.githubusercontent.com/opus1217/quick-encounters/v0.1.2/module.json",
-  "download": "https://github.com/opus1217/quick-encounters/archive/v0.1.2.zip",
-  "url": "https://github.com/opus1217/quick-encounters"
+  "styles": ["css/easy-exports.css"],
+  "readme": "https://github.com/opus1217/easy-exports/blob/v0.1.0/README.md",
+  "bugs": "https://github.com/opus1217/easy-exports/issues",
+  "changelog": "https://github.com/opus1217/easy-exports/blob/master/CHANGELOG.md",
+  "manifest": "https://raw.githubusercontent.com/opus1217/easy-exports/v0.1.1/module.json",
+  "download": "https://github.com/opus1217/easy-exports/archive/v0.1.1.zip",
+  "url": "https://github.com/opus1217/easy-exports"
 }
