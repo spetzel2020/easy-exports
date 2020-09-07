@@ -3,7 +3,7 @@
   "title": "Easy Exports",
   "description": "Easy Exports exports all Journals, Scenes, Actors, etc. with one click!",
   "author" : "Spetzel",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "minimumCoreVersion": "0.6.5",
   "compatibleCoreVersion": "0.6.6",
   "languages": [{
