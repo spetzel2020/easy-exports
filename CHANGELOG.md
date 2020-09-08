@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.2.4 Remove compendium as an export option
+
 ## 0.2.3 Simplify description
 
 ## 0.2.2 Typo.

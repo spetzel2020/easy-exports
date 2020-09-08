@@ -4,6 +4,7 @@ export const MODULE_NAME = "easy-exports";
 6-Sep-2020      Created
 6-Sep-2020      0.2.0   Write single export to any directory you pick
 7-Sep-2020      0.2.2   Typo (compendium not plural)
+                0.2.4   Can't export compendium
 */
 
 
@@ -73,7 +74,6 @@ Hooks.on(`renderSidebarTab`, async (sidebarTab, html, data) => {
         case "items":
         case "journal":
         case "playlists":
-        case "compendium":
         case "tables":
             const easyExport = `<a id='easy-export' class='export'> <i class='fas fa-file'></i>${game.i18n.localize("EE.Title")}</a>`;
             html.find(".window-header").children(".close").before(easyExport);
