@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.2.3 Simplify description
+
 ## 0.2.2 Typo.
 
 ## 0.2.0 Write single export per sidebar tab to backup directory

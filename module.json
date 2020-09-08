@@ -1,9 +1,9 @@
 {
   "name": "easy-exports",
   "title": "Easy Exports",
-  "description": "Easy Exports exports all Journals, Scenes, Actors, etc. with one click!",
+  "description": "Export Journals, Scenes, Actors, etc. by clicking Easy Export on the pop-out for that entity.",
   "author" : "Spetzel",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "minimumCoreVersion": "0.6.5",
   "compatibleCoreVersion": "0.6.6",
   "languages": [{
@@ -17,7 +17,7 @@
   "readme": "https://github.com/opus1217/easy-exports/blob/master/README.md",
   "bugs": "https://github.com/opus1217/easy-exports/issues",
   "changelog": "https://github.com/opus1217/easy-exports/blob/master/CHANGELOG.md",
-  "manifest": "https://raw.githubusercontent.com/opus1217/easy-exports/v0.2.2/module.json",
-  "download": "https://github.com/opus1217/easy-exports/archive/v0.2.2.zip",
+  "manifest": "https://raw.githubusercontent.com/opus1217/easy-exports/v0.2.3/module.json",
+  "download": "https://github.com/opus1217/easy-exports/archive/v0.2.3.zip",
   "url": "https://github.com/opus1217/easy-exports"
 }
