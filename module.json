@@ -1,7 +1,7 @@
 {
   "name": "easy-exports",
   "title": "Easy Exports",
-  "description": "Easy Exports exports all Journals, Scenes, Actors, etc. with one click!",
+  "description": "Export Journals, Scenes, Actors, etc. by clicking Easy Export on the pop-out for that entity.",
   "author" : "Spetzel",
   "version": "0.2.2",
   "minimumCoreVersion": "0.6.5",
