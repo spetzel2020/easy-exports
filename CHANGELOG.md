@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.5    
+Remove Compendium from README
+Verify compatibility with Foundry 0.7.2
+
 ## 0.2.4 Remove compendium as an export option
 
 ## 0.2.3 Simplify description

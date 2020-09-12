@@ -1,6 +1,6 @@
 {
-    "EE.Version" : "0.2.2",
+    "EE.Version" : "0.2.5",
   "EE.Title": "Easy Export",
-  "EE.Description": "Export all Journals (or Scenes, Actors, Items, Compendiums, Playlists) with one click!",
+  "EE.Description": "Export all Journals (or Scenes, Actors, Items, Tables, and Playlists) with one click!",
   "EE.id": "easy-exports"
 }
