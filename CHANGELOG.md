@@ -1,9 +1,9 @@
 # Changelog
 
 ## 0.3.0 17-Sep-2020
-Add macros directory for full export
-Change logging to be more informative
-Removed .setup()
+- Add macros directory for full export
+- Change logging to be more informative
+- Removed .setup()
 
 ## 0.2.5    
 Remove Compendium from README
