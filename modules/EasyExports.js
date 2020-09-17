@@ -5,6 +5,9 @@ export const MODULE_NAME = "easy-exports";
 6-Sep-2020      0.2.0   Write single export to any directory you pick
 7-Sep-2020      0.2.2   Typo (compendium not plural)
                 0.2.4   Can't export compendium
+17-Sep-2020     0.3.0   Add macros directory for full export
+                        Change logging to be more informative
+                        Removed .setup()
 */
 
 
@@ -19,12 +22,6 @@ class EasyExport {
           default: game.i18n.localize("EE.Version"),
           type: String
         });
-    }
-
-
-
-    static setup() {
-
     }
 
 
@@ -54,9 +51,9 @@ function exportTree() {
             allData += "," + JSON.stringify(data, null, 2);
         }
     }
+    console.log(`Exported ${this.entities.length} of ${this.tabName}`);
 
     // Trigger file save procedure
-
     const filename = `fvtt-${this.tabName}.json`;
     saveDataToFile(allData, "text/json", filename);
 
@@ -75,14 +72,14 @@ Hooks.on(`renderSidebarTab`, async (sidebarTab, html, data) => {
         case "journal":
         case "playlists":
         case "tables":
+        case "macros":
             const easyExport = `<a id='easy-export' class='export'> <i class='fas fa-file'></i>${game.i18n.localize("EE.Title")}</a>`;
             html.find(".window-header").children(".close").before(easyExport);
             html.find("#easy-export").click(exportTree.bind(sidebarTab));
             break;
         default:
-            console.log(sidebarTab.tabName);
+            break;
     }
 });
 
 Hooks.on("init", EasyExport.init);
-Hooks.on('setup', EasyExport.setup);
