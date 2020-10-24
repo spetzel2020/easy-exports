@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.1 24-Oct-2020
+- Confirm compatibility with Foundry 0.7.5
+
 ## 0.3.0 17-Sep-2020
 Add macros directory for full export
 Change logging to be more informative

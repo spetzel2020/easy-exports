@@ -1,0 +1,2 @@
+BUGS
+- Easy Exports is inserting \n in the JSON files which makes it hard to re-import without removing them 
