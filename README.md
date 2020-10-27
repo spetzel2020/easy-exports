@@ -27,6 +27,6 @@ Easy Exports speeds up exports for backups of your [Foundry VTT](https://foundry
 *Coming Soon!*
 
 ## License
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Easy Exports for Foundry VTT-</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/syl3r86?tab=repositories" property="cc:attributionName" rel="cc:attributionURL">Jeffrey Pugh</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+**Easy Exports for Foundry VTT** is licensed under the [GNU General Public License v3.0](https://github.com/opus1217/quick-encounters/blob/master/LICENSE)
 
 This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development v 0.1.6](http://foundryvtt.com/pages/license.html).
