@@ -1,7 +1,7 @@
 # Easy Exports
 
 * **Author**: Spetzel#0103
-* **Version**: 0.3.1
+* **Version**: 0.3.1.1
 * **Foundry VTT Compatibility**: 0.6.5-0.7.5
 * **System Compatibility (If applicable)**: N/A
 * **Translation Support**: en
@@ -13,7 +13,7 @@ Easy Exports speeds up exports for backups of your [Foundry VTT](https://foundry
 ## Install
 
 1. Go to the "Add-on Modules" tab in Foundry Setup
-2. Click "Install Module" and search for Easy Exports OR paste this link in the Manifest URL field: `https://raw.githubusercontent.com/opus1217/easy-exports/v0.3.1/module.json`
+2. Click "Install Module" and search for Easy Exports OR paste this link in the Manifest URL field: `https://raw.githubusercontent.com/spetzel2020/easy-exports/v0.3.1.1/module.json`
 3. Open your world and go to Settings>Manage Modules and enable Easy Exports
 
 ## Using Easy Exports
