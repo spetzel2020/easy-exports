@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.0 17-Nov-2020
+- NEW Import option - recovers an export into a Compendium which you can then search and selectively import from
+
 ## 0.3.1 24-Oct-2020
 - Confirm compatibility with Foundry 0.7.5
 

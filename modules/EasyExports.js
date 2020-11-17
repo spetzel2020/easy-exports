@@ -1,5 +1,3 @@
-export const MODULE_NAME = "easy-exports";
-
 /*
 6-Sep-2020      Created
 6-Sep-2020      0.2.0   Write single export to any directory you pick
@@ -9,9 +7,11 @@ export const MODULE_NAME = "easy-exports";
                         Change logging to be more informative
                         Removed .setup()
 16-Nov-2020     0.4.0   Present choice to reimport with list and checkboxes? Or multi-select?     
-                        Import into a new compendium which can then be searched and re-imported                 
+                        Import into a new compendium which can then be searched and re-imported      
+17-Nov-2020     0.4.0b  i18n messages  and dialog/display when done                                 
 */
 
+const MODULE_NAME = "easy-exports";
 const MODULE_VERSION="0.4.0";
 //ENTITY_TYPES has the entity names (liek Actor etc)
 //Surely this is available somwhere - the mapping between sidebartab and actual Entity
@@ -28,7 +28,7 @@ const SIDEBAR_TO_ENTITY = {
 class EasyExport {
     static init() {
         game.settings.register(MODULE_NAME, "easyExportsVersion", {
-          name: `Easy Exports ${game.i18n.localize("EE.Version")}`,
+          name: `Easy Exports ${MODULE_VERSION}`,
           hint: "",
           scope: "system",
           config: false,
@@ -43,13 +43,13 @@ class EasyExport {
         try {
             importedEntities = JSON.parse(json);
         } catch {
-            ui.notifications.warn("Unable to parse the input file - trying fix");
+            ui.notifications.warn(game.i18n.localize("EE.Parsing.TryingFix.WARNING"));
             //If that doesn't work, try wrapping the input file in []
             try {
                 importedEntities = JSON.parse(`{"entities": [`+json+"]}");
-                ui.notifications.info("Fixed and parsed the input file");
+                ui.notifications.info(game.i18n.localize("EE.Parsing.TryingFix.INFO"));
             } catch {
-                ui.notifications.error("Failed - Unable to parse the input file");
+                ui.notifications.error(game.i18n.localize("EE.Parsing.TryingFix.ERROR"));
             }
         }
 
@@ -76,13 +76,43 @@ class EasyExport {
 
             }
             const newCompendium = await Compendium.create(metadata);
-            ui.notifications.warn(`Created new Compendium ${newCompendium.title}; importing ${values.length} ${entity}s`);
+            ui.notifications.warn(`${game.i18n.localize("EE.ImportingCompendium.CONTENT1")} ${newCompendium.title} ${game.i18n.localize("EE.ImportingCompendium.CONTENT2")} ${values.length} ${entity}s`);
+            ui.notifications.info( game.i18n.localize("EE.ImportingCompendium.CONTENT4"));
             //FIXME: Show a dialog or pop open the Compendium - and tell them to delete when done
-            newCompendium.createEntity(values).then(() => newCompendium.render());
+            newCompendium.createEntity(values).then(() => isReadyDialog(newCompendium));
         }
 
     }
 
+}
+
+function isReadyDialog(compendium, options={}) {
+    if (!compendium) {
+        ui.notifications.error("Unable to display recovered Compendium");
+        return;
+    }
+
+    return new Promise(resolve => {
+        const dialog = new Dialog({
+            title: game.i18n.localize("EE.IsReadyDialog.TITLE"),
+            content: game.i18n.localize("EE.IsReadyDialog.CONTENT1") + compendium.title + game.i18n.localize("EE.IsReadyDialog.CONTENT2"),
+            buttons: {
+                view: {
+                    icon: '<i class="fas fa-eye"></i>',
+                    label: game.i18n.localize("EE.IsReadyDialog.ViewNow.BUTTON"),
+                    callback: () => compendium.render(true)
+                },
+                later: {
+                    icon: '<i class="fas fa-times"></i>',
+                    label: game.i18n.localize("EE.IsReadyDialog.Later.BUTTON"),
+                    callback: resolve(false)
+                }
+            },
+            default: "view",
+            close: resolve
+        }, options);
+        dialog.render(true);
+    });
 }
 
 function exportOrImportDialog(options={}) {

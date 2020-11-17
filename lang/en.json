@@ -6,6 +6,19 @@
   "EE.ExportOrImport.TITLE": "Export or Import?",
   "EE.ExportOrImport.CONTENT" : "You can now export all the entities in this tab, or selectively re-import from a previous export",
   "EE.ExportOrImport.Export.BUTTON" : "Export",
-  "EE.ExportOrImport.Import.BUTTON": "Import"
-
+  "EE.ExportOrImport.Import.BUTTON": "Import",
+  "EE.Parsing.TryingFix.WARNING": "Unable to parse the input file - trying fix for older files",
+  "EE.Parsing.TryingFix.INFO": "Fix successful; importing",
+  "EE.Parsing.TryingFix.ERROR": "Importing failed - please check the file you specifieed",
+  "EE.Parsing.CONTENT3": "You can now export all the entities in this tab, or selectively re-import from a previous export",
+  "EE.Parsing.CONTENT4": "Easy Exports will alert you with a dialog when the import has finished",
+  "EE.ImportingCompendium.CONTENT1": "Creating new Compendium",
+  "EE.ImportingCompendium.CONTENT2": "and importing",
+  "EE.ImportingCompendium.CONTENT3": "You can now export all the entities in this tab, or selectively re-import from a previous export",
+  "EE.ImportingCompendium.CONTENT4": "Easy Exports will alert you with a dialog when the import has finished",
+  "EE.IsReadyDialog.TITLE": "View your recovered data?",
+  "EE.IsReadyDialog.CONTENT1": "<p>Your exported data has been recovered into the Compendium ",
+  "EE.IsReadyDialog.CONTENT2": ".</p><p>You can search and re-import the entities you wish to recover. Remember to delete the Compendium when done.</p><p>Do you want to view that now or later?</p>",
+  "EE.IsReadyDialog.ViewNow.BUTTON": "View Now",
+  "EE.IsReadyDialog.Later.BUTTON": "Later"
 }

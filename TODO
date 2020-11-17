@@ -1,2 +1,3 @@
 BUGS
-- Easy Exports is inserting \n in the JSON files which makes it hard to re-import without removing them 
+FIXED: Convert notifications to i18n format
+FIXED: Open COmpendium when it's finished importing
