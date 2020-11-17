@@ -1,8 +1,9 @@
 # Easy Exports
+NEW! Now you can re-import your backup into a Compendium to selectively recover lost Actors, Journals, etc.
 
 * **Author**: Spetzel#0103
-* **Version**: 0.3.1
-* **Foundry VTT Compatibility**: 0.6.5-0.7.5
+* **Version**: 0.4.0
+* **Foundry VTT Compatibility**: 0.6.5-0.7.7
 * **System Compatibility (If applicable)**: N/A
 * **Translation Support**: en
 
@@ -13,7 +14,7 @@ Easy Exports speeds up exports for backups of your [Foundry VTT](https://foundry
 ## Install
 
 1. Go to the "Add-on Modules" tab in Foundry Setup
-2. Click "Install Module" and search for Easy Exports OR paste this link in the Manifest URL field: `https://raw.githubusercontent.com/opus1217/easy-exports/master/module.json`
+2. Click "Install Module" and search for Easy Exports OR paste this link in the Manifest URL field: `https://raw.githubusercontent.com/spetzel2020/easy-exports/v0.4.0/module.json`
 3. Open your world and go to Settings>Manage Modules and enable Easy Exports
 
 ## Using Easy Exports
@@ -22,3 +23,11 @@ Easy Exports speeds up exports for backups of your [Foundry VTT](https://foundry
 3. Pick the Easy Export option from the title bar of the pop-out (next to the Close option)
 4. The contents of the window will be exported in one concatenated JSON file to a backup location you pick on your local machine.
 5. To recover individual entities, edit the relevant JSON into a separate file for import
+
+## Contributions
+*Coming Soon!*
+
+## License
+**Easy Exports for Foundry VTT** is licensed under the [GNU General Public License v3.0](https://github.com/spetzel2020/easy-exports/blob/master/LICENSE)
+
+This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development v 0.1.6](http://foundryvtt.com/pages/license.html).
