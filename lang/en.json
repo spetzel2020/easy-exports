@@ -1,6 +1,11 @@
 {
-    "EE.Version" : "0.3.1",
+  "EE.id": "easy-exports",
+  "EE.Version" : "0.4.0",
   "EE.Title": "Easy Export",
   "EE.Description": "Export all Journals (or Scenes, Actors, Items, Tables, and Playlists) with one click!",
-  "EE.id": "easy-exports"
+  "EE.ExportOrImport.TITLE": "Export or Import?",
+  "EE.ExportOrImport.CONTENT" : "You can now export all the entities in this tab, or selectively re-import from a previous export",
+  "EE.ExportOrImport.Export.BUTTON" : "Export",
+  "EE.ExportOrImport.Import.BUTTON": "Import"
+
 }

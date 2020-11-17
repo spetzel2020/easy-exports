@@ -8,9 +8,22 @@ export const MODULE_NAME = "easy-exports";
 17-Sep-2020     0.3.0   Add macros directory for full export
                         Change logging to be more informative
                         Removed .setup()
+16-Nov-2020     0.4.0   Present choice to reimport with list and checkboxes? Or multi-select?     
+                        Import into a new compendium which can then be searched and re-imported                 
 */
 
-
+const MODULE_VERSION="0.4.0";
+//ENTITY_TYPES has the entity names (liek Actor etc)
+//Surely this is available somwhere - the mapping between sidebartab and actual Entity
+const SIDEBAR_TO_ENTITY = {
+        "scenes": "Scene",
+        "actors": "Actor",
+        "items": "Item",
+        "journal": "JournalEntry",
+        "playlists": "Playlist",
+        "tables": "RollTable",
+        "macros": "Macro"
+}
 
 class EasyExport {
     static init() {
@@ -19,13 +32,110 @@ class EasyExport {
           hint: "",
           scope: "system",
           config: false,
-          default: game.i18n.localize("EE.Version"),
+          default: MODULE_VERSION,
           type: String
         });
     }
 
+    static async importFromJSON(json, filename) {
+        let importedEntities;
+        //First attempt uses v0.4 output format which includes array [] around the output
+        try {
+            importedEntities = JSON.parse(json);
+        } catch {
+            ui.notifications.warn("Unable to parse the input file - trying fix");
+            //If that doesn't work, try wrapping the input file in []
+            try {
+                importedEntities = JSON.parse(`{"entities": [`+json+"]}");
+                ui.notifications.info("Fixed and parsed the input file");
+            } catch {
+                ui.notifications.error("Failed - Unable to parse the input file");
+            }
+        }
+
+        //Backup method of extracting the entity from the filename
+        let entityFromFilename;
+        try {
+            const extractedSidebar = filename.split("-")[1];
+            entityFromFilename = SIDEBAR_TO_ENTITY[extractedSidebar]
+        } catch {}
+        //Should be {entity: [<array of entities>]}
+        if (importedEntities) {
+            //New method (for 0.4 exports)
+            let entity = Object.keys(importedEntities)[0];
+            let values = Object.values(importedEntities)[0];
+            if (!entity || entity === "entities") {
+               entity = entityFromFilename;
+            }
+            if (!entity) {return;}
+
+            const metadata = {
+                package: "world",
+                entity: entity,
+                label: filename         //so that you can work out which one to look at
+
+            }
+            const newCompendium = await Compendium.create(metadata);
+            ui.notifications.warn(`Created new Compendium ${newCompendium.title}; importing ${values.length} ${entity}s`);
+            //FIXME: Show a dialog or pop open the Compendium - and tell them to delete when done
+            newCompendium.createEntity(values).then(() => newCompendium.render());
+        }
+
+    }
 
 }
+
+function exportOrImportDialog(options={}) {
+    return new Promise(resolve => {
+        const dialog = new Dialog({
+        title: game.i18n.localize("EE.ExportOrImport.TITLE"),
+        content: game.i18n.localize("EE.ExportOrImport.CONTENT"),
+        buttons: {
+            export: {
+                icon: '<i class="fas fa-file-export"></i>',
+                label: game.i18n.localize("EE.ExportOrImport.Export.BUTTON"),
+                callback: exportTree.bind(this)
+            },
+            import: {
+                icon: '<i class="fas fa-file-import"></i>',
+                label: game.i18n.localize("EE.ExportOrImport.Import.BUTTON"),
+                callback: importDialog.bind(this)
+            }
+        },
+        default: "export",
+        close: resolve
+        }, options);
+        dialog.render(true);
+    });
+}
+
+async function importDialog() {
+    //Read the file you want to import
+    new Dialog({
+      title: `Import Data: ${this.name}`,
+      content: await renderTemplate("templates/apps/import-data.html", {entity: this.entity, name: this.name}),
+      buttons: {
+        import: {
+          icon: '<i class="fas fa-file-import"></i>',
+          label: "Import",
+          callback: html => {
+            const form = html.find("form")[0];
+            if ( !form.data.files.length ) return ui.notifications.error("You did not upload a data file!");
+            const filename = form.data.files[0];
+            readTextFromFile(filename).then(json => EasyExport.importFromJSON(json, filename.name));
+          }
+        },
+        no: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Cancel"
+        }
+      },
+      default: "import"
+    }, {
+      width: 400
+    }).render(true);
+}
+
 
 function exportTree() {
     let allData = null;
@@ -42,7 +152,7 @@ function exportTree() {
         delete data.folder;
         delete data.permission;
         // Flag some metadata about where the entity was exported some - in case migration is needed later
-        //Redudant since we're storing this on every element
+        //Redundant since we're storing this on every element
         data.flags["exportSource"] = metadata;
 
         if (allData === null) {
@@ -51,11 +161,15 @@ function exportTree() {
             allData += "," + JSON.stringify(data, null, 2);
         }
     }
+    //Prepend and append [] for array re-import
+    const entity = this.entities[0]?.entity;
+    allData = `{"${entity}":[`+allData+"]}";
     console.log(`Exported ${this.entities.length} of ${this.tabName}`);
 
     // Trigger file save procedure
     const filename = `fvtt-${this.tabName}.json`;
     saveDataToFile(allData, "text/json", filename);
+    console.log(`Saved to file`);
 
 }
 
@@ -75,7 +189,7 @@ Hooks.on(`renderSidebarTab`, async (sidebarTab, html, data) => {
         case "macros":
             const easyExport = `<a id='easy-export' class='export'> <i class='fas fa-file'></i>${game.i18n.localize("EE.Title")}</a>`;
             html.find(".window-header").children(".close").before(easyExport);
-            html.find("#easy-export").click(exportTree.bind(sidebarTab));
+            html.find("#easy-export").click(exportOrImportDialog.bind(sidebarTab));
             break;
         default:
             break;
