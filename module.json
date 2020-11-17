@@ -14,10 +14,10 @@
   "esmodules" : ["modules/EasyExports.js"
   ],
   "styles": ["css/easy-exports.css"],
-  "readme": "https://github.com/opus1217/easy-exports/blob/master/README.md",
-  "bugs": "https://github.com/opus1217/easy-exports/issues",
-  "changelog": "https://github.com/opus1217/easy-exports/blob/master/CHANGELOG.md",
-  "manifest": "https://raw.githubusercontent.com/opus1217/easy-exports/v0.4.1/module.json",
-  "download": "https://github.com/opus1217/easy-exports/archive/v0.4.1.zip",
-  "url": "https://github.com/opus1217/easy-exports"
+  "readme": "https://github.com/spetzel2020/easy-exports/blob/master/README.md",
+  "bugs": "https://github.com/spetzel2020/easy-exports/issues",
+  "changelog": "https://github.com/spetzel2020/easy-exports/blob/master/CHANGELOG.md",
+  "manifest": "https://raw.githubusercontent.com/spetzel2020/easy-exports/v0.4.1/module.json",
+  "download": "https://github.com/spetzel2020/easy-exports/archive/v0.4.1.zip",
+  "url": "https://github.com/spetzel2020/easy-exports"
 }
