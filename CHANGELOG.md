@@ -1,4 +1,7 @@
 # Changelog
+## 0.4.2 2-Dec-2020
+- Add Spanish translation (thanks https://github.com/lozalojo!)
+- New packaging method (explicit module.json and easy-exports.zip in downloads)
 
 ## 0.4.0,0.4.1 17-Nov-2020
 - NEW Import option - recovers an export into a Compendium which you can then search and selectively import from

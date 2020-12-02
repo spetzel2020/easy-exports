@@ -1,6 +1,6 @@
 {
   "EE.id": "easy-exports",
-  "EE.Version" : "0.4.1",
+  "EE.Version" : "0.4.2",
   "EE.Title": "Easy Export",
   "EE.Description": "Export all Journals (or Scenes, Actors, Items, Tables, and Playlists) with one click!",
   "EE.ExportOrImport.TITLE": "Export or Import?",

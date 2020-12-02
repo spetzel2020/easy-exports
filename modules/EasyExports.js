@@ -12,7 +12,7 @@
 */
 
 const MODULE_NAME = "easy-exports";
-const MODULE_VERSION="0.4.1";
+const MODULE_VERSION="0.4.2";
 //ENTITY_TYPES has the entity names (liek Actor etc)
 //Surely this is available somwhere - the mapping between sidebartab and actual Entity
 const SIDEBAR_TO_ENTITY = {
@@ -78,7 +78,6 @@ class EasyExport {
             const newCompendium = await Compendium.create(metadata);
             ui.notifications.warn(`${game.i18n.localize("EE.ImportingCompendium.CONTENT1")} ${newCompendium.title} ${game.i18n.localize("EE.ImportingCompendium.CONTENT2")} ${values.length} ${entity}s`);
             ui.notifications.info( game.i18n.localize("EE.ImportingCompendium.CONTENT4"));
-            //FIXME: Show a dialog or pop open the Compendium - and tell them to delete when done
             newCompendium.createEntity(values).then(() => isReadyDialog(newCompendium));
         }
 
