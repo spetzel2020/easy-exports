@@ -12,7 +12,7 @@
 */
 
 const MODULE_NAME = "easy-exports";
-const MODULE_VERSION="0.4.2";
+const MODULE_VERSION="0.4.3";
 //ENTITY_TYPES has the entity names (liek Actor etc)
 //Surely this is available somwhere - the mapping between sidebartab and actual Entity
 const SIDEBAR_TO_ENTITY = {

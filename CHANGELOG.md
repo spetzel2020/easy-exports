@@ -1,4 +1,7 @@
-# Changelog
+# RELEASE NOTES
+
+## 0.4.3 3-Dec-2020
+- Tweak module.json to always point to "latest"
 ## 0.4.2 2-Dec-2020
 - Add Spanish translation (thanks https://github.com/lozalojo!)
 - New packaging method (explicit module.json and easy-exports.zip in downloads)
