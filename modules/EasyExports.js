@@ -12,7 +12,7 @@
 */
 
 const MODULE_NAME = "easy-exports";
-const MODULE_VERSION="0.4.3";
+const MODULE_VERSION="0.5.0";
 //ENTITY_TYPES has the entity names (liek Actor etc)
 //Surely this is available somwhere - the mapping between sidebartab and actual Entity
 const SIDEBAR_TO_ENTITY = {
@@ -129,6 +129,11 @@ function exportOrImportDialog(options={}) {
                 icon: '<i class="fas fa-file-import"></i>',
                 label: game.i18n.localize("EE.ExportOrImport.Import.BUTTON"),
                 callback: importDialog.bind(this)
+            },
+            backup: {
+                icon: '<i class="fas fa-file-export"></i>',
+                label: game.i18n.localize("EE.ExportOrImport.FullBackup.BUTTON"),
+                callback: exportAll.bind(this)
             }
         },
         default: "export",
@@ -166,7 +171,7 @@ async function importDialog() {
 }
 
 
-function exportTree() {
+function exportTree(writeFile=true) {
     let allData = null;
     const metadata = {
           world: game.world.id,
@@ -197,9 +202,31 @@ function exportTree() {
 
     // Trigger file save procedure
     const filename = `fvtt-${this.tabName}.json`;
-    saveDataToFile(allData, "text/json", filename);
-    console.log(`Saved to file`);
+    if (writeFile) writeJSONToFile(filename, allData);
+    return {filename, allData}
+}
 
+function writeJSONToFile(filename, data) {
+    saveDataToFile(data, "text/json", filename);
+    console.log(`Saved to file ${filename}`);
+}
+
+function exportAll() {
+    let fullBackupData = null;
+    for (const entity of Object.keys(SIDEBAR_TO_ENTITY)) {
+        const entityClass = ui[entity];     //Helpfully stores this mapping
+        const exportThisEntity = exportTree.bind(entityClass);
+        let {filename, allData} = exportThisEntity(false);
+        if (fullBackupData === null) {
+            fullBackupData = allData; 
+        } else {
+            fullBackupData += "," + allData;  //add a comma after each previous element
+        }
+    }
+    //Wrap them all in an entity that can be reimported
+    fullBackupData = `{"fullBackup" : [${fullBackupData}]}`;
+    const filename = `fvtt-fullBackup.json`;
+    writeJSONToFile(filename, fullBackupData);
 }
 
 

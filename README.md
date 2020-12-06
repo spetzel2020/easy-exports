@@ -2,7 +2,7 @@
 NEW! Now you can re-import your backup into a Compendium to selectively recover lost Actors, Journals, etc.
 
 * **Author**: Spetzel#0103
-* **Version**: 0.4.3
+* **Version**: 0.5.0
 * **Foundry VTT Compatibility**: 0.6.5-0.7.7
 * **System Compatibility (If applicable)**: N/A
 * **Translation Support**: en, es (thanks @Viriato139ac#0342!)
