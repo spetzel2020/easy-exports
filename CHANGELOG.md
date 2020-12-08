@@ -1,5 +1,10 @@
 # RELEASE NOTES
 
+## 0.5.0 6-Dec-2020
+- Check Foundry 0.7.8 compatibility
+- Full Backup option (concatenated export of individual tab exports)
+- Import of Full Backup (basic: re-imports all the Compendiums)
+
 ## 0.4.3 3-Dec-2020
 - Tweak module.json to always point to "latest"
 ## 0.4.2 2-Dec-2020

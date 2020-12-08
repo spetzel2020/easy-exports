@@ -3,7 +3,7 @@ NEW! Now you can re-import your backup into a Compendium to selectively recover 
 
 * **Author**: Spetzel#0103
 * **Version**: 0.5.0
-* **Foundry VTT Compatibility**: 0.6.5-0.7.7
+* **Foundry VTT Compatibility**: 0.6.5-0.7.8
 * **System Compatibility (If applicable)**: N/A
 * **Translation Support**: en, es (thanks @Viriato139ac#0342!)
 
