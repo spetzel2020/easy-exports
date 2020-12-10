@@ -9,7 +9,9 @@ NEW! Now you can re-import your backup into a Compendium to selectively recover 
 
 
 ## Description
-Easy Exports speeds up exports for backups of your [Foundry VTT](https://foundryvtt.com/) world. Instead of right-clicking every Journal, Scene, Actor, etc. simply right-click the section in the Sidebar and pick the Easy Export option from the pop-up window (next to the Close button). Works for Macros too!
+Easy Exports speeds up exports for backups of your [Foundry VTT](https://foundryvtt.com/) world. Instead of right-clicking every Journal, Scene, Actor, etc. simply right-click the section in the Sidebar and pick the Easy Export option from the pop-up window (next to the Close button). Works for Macros too! Save before and after snapshots of your Sessions.
+
+Easy Exports saves exports to your local client, so if you are hosting Foundry remotely you don't have to rely on the services' backups, or wait for them to recover it for you!
 
 ## Install
 
