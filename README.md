@@ -1,5 +1,5 @@
 # Easy Exports
-NEW! Now you can re-import your backup into a Compendium to selectively recover lost Actors, Journals, etc.
+NEW! Use the new **Full Backup** option to do a one-click backup of Scenes, Actors, Journals, Items, Tables, and Macros into one file. And Importing works for Full Backups too.
 
 * **Author**: Spetzel#0103
 * **Version**: 0.5.0
@@ -34,6 +34,8 @@ Easy Exports saves exports to your local client, so if you are hosting Foundry r
 4. If the file is recognized, it will be imported into a custom Compendium - a dialog will show when the Compendium is ready to view (may take a few seconds or several minutes depending on size and bandwidth)
 5. You can then import from the Compendium in the normal way to recover your entities
 6. Don't forget to delete the Compendium when done!
+7. If you Import a previous Full Backup it will automatically create separate Compendiums for the exported Scenes, Actors, etc.
+
 ## Contributions
 *Coming Soon!*
 
