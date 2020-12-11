@@ -2,7 +2,7 @@
   "EE.id": "easy-exports",
   "EE.Version" : "0.5.0",
   "EE.Title": "Easy Export",
-  "EE.Description": "Export all Journals (or Scenes, Actors, Items, Tables, and Playlists) with one click!",
+  "EE.Description": "<p>Export all Journals (or Scenes, Actors, Items, Tables, and Playlists) with one click!</p><p>Easy Exports saves exports to your local client, so if you are hosting Foundry remotely you don't have to rely on the services' backups, or wait for them to recover it for you!</p>",
   "EE.ExportOrImport.TITLE": "Export or Import?",
   "EE.ExportOrImport.CONTENT" : "You can now export all the entities in this tab, selectively re-import from a previous export, or backup (export all entities in all tabs)",
   "EE.ExportOrImport.Export.BUTTON" : "Export",

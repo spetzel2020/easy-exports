@@ -5,6 +5,10 @@
 - case statement on allowable entities can be replaced with comparison against SIDEBAR_ENTITIES
 
 # FEATURES
+- Option to export assets as well??
+    - Would need to read multiple directories and Zip them - requires accessing the server (unless they exist on the client)
+
+- Dialog for selectively re-importing from Full Backup
 - Change "Easy Export" in title bar to just "Export"
 
 - Way to do time-triggered Export? 
@@ -12,4 +16,3 @@
 
 # COMPLETED FEATURES
 v0.5.0 Button in basic controls or in Export/Import dialog to do Full Backup (actually just separate exports)
-        - Will need a corresponding re-import to handle this (select which COmpendiums you want to bring back)
