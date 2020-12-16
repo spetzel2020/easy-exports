@@ -40,7 +40,7 @@ Easy Exports saves exports to your local client, so if you are hosting Foundry r
 7. If you Import a previous Full Backup it will automatically create separate Compendiums for the exported Scenes, Actors, etc.
 
 ## Contributions
-*Coming Soon!*
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/T6T82XFQD)
 
 ## License
 **Easy Exports for Foundry VTT** is licensed under the [GNU General Public License v3.0](https://github.com/spetzel2020/easy-exports/blob/master/LICENSE)
