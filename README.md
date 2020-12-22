@@ -6,7 +6,7 @@ NEW! Use the new **Full Backup** option to do a one-click backup of Scenes, Acto
 
 * **Author**: Spetzel#0103
 * **Version**: 0.5.0
-* **Foundry VTT Compatibility**: 0.6.5-0.7.8
+* **Foundry VTT Compatibility**: 0.6.5-0.7.9
 * **System Compatibility (If applicable)**: N/A
 * **Translation Support**: en, es (thanks @Viriato139ac#0342!)
 
