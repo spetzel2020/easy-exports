@@ -1,5 +1,6 @@
 # RELEASE NOTES
-
+## 0.5.1 21-Dec-2020
+- Fixed: Full Backup was exporting/importing "null" entity which meant the world would not start up
 ## 0.5.0 6-Dec-2020
 - Check Foundry 0.7.8 compatibility
 - Full Backup option (concatenated export of individual tab exports)

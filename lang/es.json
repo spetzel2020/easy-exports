@@ -3,7 +3,7 @@
   "I18N.MAINTAINERS": "@Viriato139ac#0342",
 
   "EE.id": "easy-exports",
-  "EE.Version" : "0.5.0",
+  "EE.Version" : "0.5.1",
   "EE.Title": "Easy Export",
   "EE.Description": "¡Exporta todos los Diarios (o Escenas, Actores, Objetos, Tablas y Listas de Reproducción) con un solo clic!",
   "EE.ExportOrImport.TITLE": "Exportar/Importar",

@@ -11,13 +11,15 @@
 17-Nov-2020     0.4.0b  i18n messages  and dialog/display when done     
 6-Dec-2020      0.5.0   Add Full Backup option
 8-Dec-2020      0.5.0b  Handle re-import of Full Backup. 
-                        Make Import dialog more relevant to Easy Exports and notifications parameterized                            
+                        Make Import dialog more relevant to Easy Exports and notifications parameterized     
+21-Dec-2020     0.5.1   Guard against import being of invalid entity, because that chokes world startup                                               
+                        include not importing from fullBackup if it's an invalid entity
 */
 
 //0.5.0 Wrap constants in module name to protect the namespace
 const EASY_EXPORTS = {
     MODULE_NAME : "easy-exports",
-    MODULE_VERSION : "0.5.0",
+    MODULE_VERSION : "0.5.1",
     FULL_BACKUP_KEY : "fullBackup"
 }
 
@@ -84,7 +86,8 @@ class EasyExport {
                 EasyExport.importFullBackup(values, filename);
                 return;
             }
-            if (!entity) {return;}
+            //0.5.1 Check that entity is legal (because Foundry chokes on startup if you've got an invalid Compendium)
+            if (!entity || !Object.values(SIDEBAR_TO_ENTITY).includes(entity)) {return;}
 
             const metadata = {
                 package: "world",
@@ -106,10 +109,13 @@ class EasyExport {
 
     static async importFullBackup(entityBackups, filename) {
         for (const entity of entityBackups) {
-            const entityName = Object.keys(entity) ? Object.keys(entity)[0] : "unknown";
-            const constructedFilename = filename+"-"+entityName;
-            //Note this is not really recursive - it calls back to importFromJSON for each individual entity backup
-            EasyExport.importEntity(entity, constructedFilename);
+            //v0.5.1 If we can't decode entity, skip it
+            if (Object.keys(entity)) {
+                const entityName = Object.keys(entity)[0];
+                const constructedFilename = filename+"-"+entityName;
+                //Note this is not really recursive - it calls back to importFromJSON for each individual entity backup
+                EasyExport.importEntity(entity, constructedFilename);
+            }
         }
     }
 
