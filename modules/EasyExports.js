@@ -8,11 +8,21 @@
                         Removed .setup()
 16-Nov-2020     0.4.0   Present choice to reimport with list and checkboxes? Or multi-select?     
                         Import into a new compendium which can then be searched and re-imported      
-17-Nov-2020     0.4.0b  i18n messages  and dialog/display when done                                 
+17-Nov-2020     0.4.0b  i18n messages  and dialog/display when done     
+6-Dec-2020      0.5.0   Add Full Backup option
+8-Dec-2020      0.5.0b  Handle re-import of Full Backup. 
+                        Make Import dialog more relevant to Easy Exports and notifications parameterized     
+21-Dec-2020     0.5.1   Guard against import being of invalid entity, because that chokes world startup                                               
+                        include not importing from fullBackup if it's an invalid entity
 */
 
-const MODULE_NAME = "easy-exports";
-const MODULE_VERSION="0.4.1";
+//0.5.0 Wrap constants in module name to protect the namespace
+const EASY_EXPORTS = {
+    MODULE_NAME : "easy-exports",
+    MODULE_VERSION : "0.5.1",
+    FULL_BACKUP_KEY : "fullBackup"
+}
+
 //ENTITY_TYPES has the entity names (liek Actor etc)
 //Surely this is available somwhere - the mapping between sidebartab and actual Entity
 const SIDEBAR_TO_ENTITY = {
@@ -27,12 +37,12 @@ const SIDEBAR_TO_ENTITY = {
 
 class EasyExport {
     static init() {
-        game.settings.register(MODULE_NAME, "easyExportsVersion", {
-          name: `Easy Exports ${MODULE_VERSION}`,
+        game.settings.register(EASY_EXPORTS.MODULE_NAME, "easyExportsVersion", {
+          name: `Easy Exports ${EASY_EXPORTS.MODULE_VERSION}`,
           hint: "",
           scope: "system",
           config: false,
-          default: MODULE_VERSION,
+          default: EASY_EXPORTS.MODULE_VERSION,
           type: String
         });
     }
@@ -52,22 +62,32 @@ class EasyExport {
                 ui.notifications.error(game.i18n.localize("EE.Parsing.TryingFix.ERROR"));
             }
         }
+        EasyExport.importEntity(importedEntities, filename);
+    }
 
+    static async importEntity(importedEntities, filename) {
         //Backup method of extracting the entity from the filename
         let entityFromFilename;
         try {
-            const extractedSidebar = filename.split("-")[1];
+            const extractedSidebar = filename?.split("-")[1];
             entityFromFilename = SIDEBAR_TO_ENTITY[extractedSidebar]
         } catch {}
+
+
         //Should be {entity: [<array of entities>]}
         if (importedEntities) {
             //New method (for 0.4 exports)
             let entity = Object.keys(importedEntities)[0];
             let values = Object.values(importedEntities)[0];
+            //0.5.0: For Full Backup, first cut is we retrieve all into multiple compendiums
             if (!entity || entity === "entities") {
                entity = entityFromFilename;
+            } else if (entity === EASY_EXPORTS.FULL_BACKUP_KEY) {
+                EasyExport.importFullBackup(values, filename);
+                return;
             }
-            if (!entity) {return;}
+            //0.5.1 Check that entity is legal (because Foundry chokes on startup if you've got an invalid Compendium)
+            if (!entity || !Object.values(SIDEBAR_TO_ENTITY).includes(entity)) {return;}
 
             const metadata = {
                 package: "world",
@@ -76,12 +96,27 @@ class EasyExport {
 
             }
             const newCompendium = await Compendium.create(metadata);
-            ui.notifications.warn(`${game.i18n.localize("EE.ImportingCompendium.CONTENT1")} ${newCompendium.title} ${game.i18n.localize("EE.ImportingCompendium.CONTENT2")} ${values.length} ${entity}s`);
+            //Default string, unless we have a parameterized version
+            let warning = `${game.i18n.localize("EE.ImportingCompendium.CONTENT1")} ${newCompendium.title} ${game.i18n.localize("EE.ImportingCompendium.CONTENT2")} ${values.length} ${entity}s`;
+            if (game.i18n.has("EE.ImportingCompendium.CONTENT_v050")) {
+                warning = game.i18n.format("EE.ImportingCompendium.CONTENT_v050",{title : newCompendium.title, numEntities : values.length, entityName :  entity});
+            }
+            ui.notifications.warn(warning);
             ui.notifications.info( game.i18n.localize("EE.ImportingCompendium.CONTENT4"));
-            //FIXME: Show a dialog or pop open the Compendium - and tell them to delete when done
             newCompendium.createEntity(values).then(() => isReadyDialog(newCompendium));
         }
+    }
 
+    static async importFullBackup(entityBackups, filename) {
+        for (const entity of entityBackups) {
+            //v0.5.1 If we can't decode entity, skip it
+            if (Object.keys(entity)) {
+                const entityName = Object.keys(entity)[0];
+                const constructedFilename = filename+"-"+entityName;
+                //Note this is not really recursive - it calls back to importFromJSON for each individual entity backup
+                EasyExport.importEntity(entity, constructedFilename);
+            }
+        }
     }
 
 }
@@ -130,6 +165,11 @@ function exportOrImportDialog(options={}) {
                 icon: '<i class="fas fa-file-import"></i>',
                 label: game.i18n.localize("EE.ExportOrImport.Import.BUTTON"),
                 callback: importDialog.bind(this)
+            },
+            backup: {
+                icon: '<i class="fas fa-file-export"></i>',
+                label: game.i18n.localize("EE.ExportOrImport.FullBackup.BUTTON"),
+                callback: exportAll.bind(this)
             }
         },
         default: "export",
@@ -142,8 +182,8 @@ function exportOrImportDialog(options={}) {
 async function importDialog() {
     //Read the file you want to import
     new Dialog({
-      title: `Import Data: ${this.name}`,
-      content: await renderTemplate("templates/apps/import-data.html", {entity: this.entity, name: this.name}),
+      title: `Import`,
+      content: await renderTemplate("modules/easy-exports/templates/import-data.html"),
       buttons: {
         import: {
           icon: '<i class="fas fa-file-import"></i>',
@@ -167,7 +207,7 @@ async function importDialog() {
 }
 
 
-function exportTree() {
+function exportTree(writeFile=true) {
     let allData = null;
     const metadata = {
           world: game.world.id,
@@ -198,9 +238,31 @@ function exportTree() {
 
     // Trigger file save procedure
     const filename = `fvtt-${this.tabName}.json`;
-    saveDataToFile(allData, "text/json", filename);
-    console.log(`Saved to file`);
+    if (writeFile) writeJSONToFile(filename, allData);
+    return {filename, allData}
+}
 
+function writeJSONToFile(filename, data) {
+    saveDataToFile(data, "text/json", filename);
+    console.log(`Saved to file ${filename}`);
+}
+
+function exportAll() {
+    let fullBackupData = null;
+    for (const entity of Object.keys(SIDEBAR_TO_ENTITY)) {
+        const entityClass = ui[entity];     //Helpfully stores this mapping
+        const exportThisEntity = exportTree.bind(entityClass);
+        let {filename, allData} = exportThisEntity(false);
+        if (fullBackupData === null) {
+            fullBackupData = allData; 
+        } else {
+            fullBackupData += "," + allData;  //add a comma after each previous element
+        }
+    }
+    //Wrap them all in an entity that can be reimported
+    fullBackupData = `{"${EASY_EXPORTS.FULL_BACKUP_KEY}" : [${fullBackupData}]}`;
+    const filename = `fvtt-fullBackup.json`;
+    writeJSONToFile(filename, fullBackupData);
 }
 
 

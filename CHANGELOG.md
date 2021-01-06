@@ -1,4 +1,17 @@
-# Changelog
+# RELEASE NOTES
+## 0.5.1 21-Dec-2020
+- Fixed: Full Backup was exporting/importing "null" entity which meant the world would not start up
+- Checked Foundry 0.7.9 compatibility
+## 0.5.0 6-Dec-2020
+- Check Foundry 0.7.8 compatibility
+- Full Backup option (concatenated export of individual tab exports)
+- Import of Full Backup (basic: re-imports all the Compendiums)
+
+## 0.4.3 3-Dec-2020
+- Tweak module.json to always point to "latest"
+## 0.4.2 2-Dec-2020
+- Add Spanish translation (thanks https://github.com/lozalojo!)
+- New packaging method (explicit module.json and easy-exports.zip in downloads)
 
 ## 0.4.0,0.4.1 17-Nov-2020
 - NEW Import option - recovers an export into a Compendium which you can then search and selectively import from
