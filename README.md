@@ -1,20 +1,25 @@
+![Latest Release Download Count](https://img.shields.io/badge/dynamic/json?label=Downloads@latest&query=assets%5B1%5D.download_count&url=https%3A%2F%2Fapi.github.com%2Frepos%2Fspetzel2020%2Feasy-exports%2Freleases%2Flatest)
+![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Feasy-exports&colorB=4aa94a)
+
 # Easy Exports
-NEW! Now you can re-import your backup into a Compendium to selectively recover lost Actors, Journals, etc.
+NEW! Use the new **Full Backup** option to do a one-click backup of Scenes, Actors, Journals, Items, Tables, and Macros into one file. And Importing works for Full Backups too.
 
 * **Author**: Spetzel#0103
-* **Version**: 0.4.1
-* **Foundry VTT Compatibility**: 0.6.5-0.7.7
+* **Version**: 0.5.0
+* **Foundry VTT Compatibility**: 0.6.5-0.7.9
 * **System Compatibility (If applicable)**: N/A
-* **Translation Support**: en
+* **Translation Support**: en, es (thanks @Viriato139ac#0342!)
 
 
 ## Description
-Easy Exports speeds up exports for backups of your [Foundry VTT](https://foundryvtt.com/) world. Instead of right-clicking every Journal, Scene, Actor, etc. simply right-click the section in the Sidebar and pick the Easy Export option from the pop-up window (next to the Close button). Works for Macros too!
+Easy Exports speeds up exports of your world(s). Instead of right-clicking every Journal, Scene, Actor, etc. simply right-click the section in the Sidebar and pick the Easy Export option from the pop-up window (next to the Close button). Works for Macros too! Save before and after snapshots of your Sessions.
+
+Easy Exports saves exports to your local client, so if you are hosting Foundry remotely you don't have to rely on the services' backups, or wait for them to recover it for you!
 
 ## Install
 
 1. Go to the "Add-on Modules" tab in Foundry Setup
-2. Click "Install Module" and search for Easy Exports OR paste this link in the Manifest URL field: `https://raw.githubusercontent.com/spetzel2020/easy-exports/v0.4.1/module.json`
+2. Click "Install Module" and search for Easy Exports OR paste this link in the Manifest URL field: https://github.com/spetzel2020/easy-exports/releases/download/latest/module.json
 3. Open your world and go to Settings>Manage Modules and enable Easy Exports
 
 ## Using Easy Exports
@@ -32,8 +37,10 @@ Easy Exports speeds up exports for backups of your [Foundry VTT](https://foundry
 4. If the file is recognized, it will be imported into a custom Compendium - a dialog will show when the Compendium is ready to view (may take a few seconds or several minutes depending on size and bandwidth)
 5. You can then import from the Compendium in the normal way to recover your entities
 6. Don't forget to delete the Compendium when done!
+7. If you Import a previous Full Backup it will automatically create separate Compendiums for the exported Scenes, Actors, etc.
+
 ## Contributions
-*Coming Soon!*
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/T6T82XFQD)
 
 ## License
 **Easy Exports for Foundry VTT** is licensed under the [GNU General Public License v3.0](https://github.com/spetzel2020/easy-exports/blob/master/LICENSE)
