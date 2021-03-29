@@ -14,12 +14,13 @@
                         Make Import dialog more relevant to Easy Exports and notifications parameterized     
 21-Dec-2020     0.5.1   Guard against import being of invalid entity, because that chokes world startup                                               
                         include not importing from fullBackup if it's an invalid entity
+26-Mar-2021     0.6.0   Preserve folders and permissions to test whether these can be used on re-import from a Compendium                      
 */
 
 //0.5.0 Wrap constants in module name to protect the namespace
 const EASY_EXPORTS = {
     MODULE_NAME : "easy-exports",
-    MODULE_VERSION : "0.5.1",
+    MODULE_VERSION : "0.6.0",
     FULL_BACKUP_KEY : "fullBackup"
 }
 
@@ -219,8 +220,6 @@ function exportTree(writeFile=true) {
     for (let entity of this.entities) {
         //For this version, convert to JSON and merge into one file
         let data = duplicate(entity.data);
-        delete data.folder;
-        delete data.permission;
         // Flag some metadata about where the entity was exported some - in case migration is needed later
         //Redundant since we're storing this on every element
         data.flags["exportSource"] = metadata;
