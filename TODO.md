@@ -1,5 +1,6 @@
 # BUGS
-
+## Support for Foundry 0.8.1
+>>> Re-import doesn't work because Compendium.create doesn't exist
 
 # REFACTORING
 - case statement on allowable entities can be replaced with comparison against SIDEBAR_ENTITIES
