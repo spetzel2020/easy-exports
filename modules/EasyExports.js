@@ -14,7 +14,8 @@
                         Make Import dialog more relevant to Easy Exports and notifications parameterized     
 21-Dec-2020     0.5.1   Guard against import being of invalid entity, because that chokes world startup                                               
                         include not importing from fullBackup if it's an invalid entity
-26-Mar-2021     0.6.0   Preserve folders and permissions to test whether these can be used on re-import from a Compendium                      
+26-Mar-2021     0.6.0   Preserve folders and permissions to test whether these can be used on re-import from a Compendium      
+15-Apr-2021     0.6.0c  Check version and use new calls for Foundry 0.8                
 */
 
 //0.5.0 Wrap constants in module name to protect the namespace
@@ -96,7 +97,14 @@ class EasyExport {
                 label: filename         //so that you can work out which one to look at
 
             }
-            const newCompendium = await Compendium.create(metadata);
+            const isFoundryV8 = game.data.version.startsWith("0.8");
+            let newCompendium;
+            if (isFoundryV8) {
+                newCompendium = await CompendiumCollection.createCompendium(metadata);
+            } else {
+                newCompendium = await Compendium.create(metadata);
+            }
+
             //Default string, unless we have a parameterized version
             let warning = `${game.i18n.localize("EE.ImportingCompendium.CONTENT1")} ${newCompendium.title} ${game.i18n.localize("EE.ImportingCompendium.CONTENT2")} ${values.length} ${entity}s`;
             if (game.i18n.has("EE.ImportingCompendium.CONTENT_v050")) {
@@ -104,7 +112,13 @@ class EasyExport {
             }
             ui.notifications.warn(warning);
             ui.notifications.info( game.i18n.localize("EE.ImportingCompendium.CONTENT4"));
-            newCompendium.createEntity(values).then(() => isReadyDialog(newCompendium));
+
+            if (isFoundryV8) {
+                const options = {pack: newCompendium.collection}
+                newCompendium.documentClass.create(values, options).then(() => isReadyDialog(newCompendium));
+            } else { 
+                newCompendium.createEntity(values).then(() => isReadyDialog(newCompendium));
+            }
         }
     }
 

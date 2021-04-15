@@ -1,6 +1,6 @@
 # BUGS
 ## Support for Foundry 0.8.1
->>> Re-import doesn't work because Compendium.create doesn't exist
+- Item detail failing when looking at Compendium (need to check all re-imported Compendia)
 
 # REFACTORING
 - case statement on allowable entities can be replaced with comparison against SIDEBAR_ENTITIES
@@ -17,3 +17,6 @@
 
 # COMPLETED FEATURES
 v0.5.0 Button in basic controls or in Export/Import dialog to do Full Backup (actually just separate exports)
+
+# FIXED BUGS
+0.6.0c Create Compendium failing on re-import
