@@ -20,3 +20,14 @@ v0.5.0 Button in basic controls or in Export/Import dialog to do Full Backup (ac
 
 # FIXED BUGS
 0.6.0c Create Compendium failing on re-import
+
+
+================
+# TESTING
+## RE-IMPORT
+- Macro: OK 
+- Journal: OK
+- Scene: Fails if a Scene doesn't have a background image
+- Item: OK
+- Actor: OK
+- Playlist: OK
