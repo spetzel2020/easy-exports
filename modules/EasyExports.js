@@ -21,7 +21,7 @@
 //0.5.0 Wrap constants in module name to protect the namespace
 const EASY_EXPORTS = {
     MODULE_NAME : "easy-exports",
-    MODULE_VERSION : "0.6.0",
+    MODULE_VERSION : "0.6.1",
     FULL_BACKUP_KEY : "fullBackup"
 }
 
