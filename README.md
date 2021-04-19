@@ -19,7 +19,7 @@ Easy Exports saves exports to your local client, so if you are hosting Foundry r
 ## Install
 
 1. Go to the "Add-on Modules" tab in Foundry Setup
-2. Click "Install Module" and search for Easy Exports OR paste this link in the Manifest URL field: https://github.com/spetzel2020/easy-exports/releases/download/latest/module.json
+2. Click "Install Module" and search for Easy Exports OR paste this link in the Manifest URL field: https://github.com/spetzel2020/easy-exports/releases/latest/download/module.json
 3. Open your world and go to Settings>Manage Modules and enable Easy Exports
 
 ## Using Easy Exports
