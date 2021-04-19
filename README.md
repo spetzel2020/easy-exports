@@ -17,7 +17,6 @@ Easy Exports speeds up exports of your world(s). Instead of right-clicking every
 Easy Exports saves exports to your local client, so if you are hosting Foundry remotely you don't have to rely on the services' backups, or wait for them to recover it for you!
 
 ## Install
-
 1. Go to the "Add-on Modules" tab in Foundry Setup
 2. Click "Install Module" and search for Easy Exports OR paste this link in the Manifest URL field: https://github.com/spetzel2020/easy-exports/releases/latest/download/module.json
 3. Open your world and go to Settings>Manage Modules and enable Easy Exports
@@ -28,7 +27,9 @@ Easy Exports saves exports to your local client, so if you are hosting Foundry r
 2. Right-click on the tab in the Sidebar (Scenes, Actors, Items, Journals, Rollable Tables, or Playlists) to open the pop-out (for Macros, just click the file icon in the Macro bar)
 3. Click on Easy Export in the title bar of the pop-out (next to the Close option); choose Export
 4. The contents of the window will be exported in one concatenated JSON file to a backup location you pick on your local machine.
-5. To recover individual entities, edit the relevant JSON into a separate file for import
+
+### Full Backup
+Follow the steps for Exporting, but pick Full Backup - this will create a single file containing all six exports which can be re-imported if necessary.
 
 ### Importing
 1. Right-click any Sidebar tab
