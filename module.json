@@ -3,9 +3,9 @@
   "title": "Easy Exports",
   "description": "Easy Exports speeds up backups of your world(s). Now with Import and Full Backup! Instead of right-clicking every Journal, Scene, Actor, etc. simply right-click the section in the Sidebar and pick the Easy Export option from the pop-up window. Works for Macros too!",
   "author" : "Spetzel",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "minimumCoreVersion": "0.6.5",
-  "compatibleCoreVersion": "0.8.1",
+  "compatibleCoreVersion": "0.9.238",
   "languages": [
     {
       "lang": "en",
@@ -26,6 +26,6 @@
   "bugs": "https://github.com/spetzel2020/easy-exports/issues",
   "changelog": "https://github.com/spetzel2020/easy-exports/blob/master/CHANGELOG.md",
   "manifest": "https://github.com/spetzel2020/easy-exports/releases/latest/download/module.json",
-  "download": "https://github.com/spetzel2020/easy-exports/releases/download/0.6.1/easy-exports.zip",
+  "download": "https://github.com/spetzel2020/easy-exports/releases/download/0.6.2/easy-exports.zip",
   "url": "https://github.com/spetzel2020/easy-exports"
 }

@@ -1,4 +1,10 @@
 # RELEASE NOTES
+## 0.6.2
+- Test for Foundry 0.9
+- Fix deprecation of Directory.entities
+## 0.6
+- Preserve folders and permissions to test whether these can be used on re-import from a Compendium      
+- Check version and use new calls for Foundry 0.8
 ## 0.5.1 21-Dec-2020
 - Fixed: Full Backup was exporting/importing "null" entity which meant the world would not start up
 - Checked Foundry 0.7.9 compatibility

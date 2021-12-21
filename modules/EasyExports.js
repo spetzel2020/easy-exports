@@ -15,7 +15,10 @@
 21-Dec-2020     0.5.1   Guard against import being of invalid entity, because that chokes world startup                                               
                         include not importing from fullBackup if it's an invalid entity
 26-Mar-2021     0.6.0   Preserve folders and permissions to test whether these can be used on re-import from a Compendium      
-15-Apr-2021     0.6.0c  Check version and use new calls for Foundry 0.8                
+15-Apr-2021     0.6.0c  Check version and use new calls for Foundry 0.8   
+21-Dec-2021     0.6.2   Set the EasyExport.isFoundryV8Plus variable for different code-paths
+                        Fix deprecation of Directory.entities
+            
 */
 
 //0.5.0 Wrap constants in module name to protect the namespace
@@ -47,6 +50,9 @@ class EasyExport {
           default: EASY_EXPORTS.MODULE_VERSION,
           type: String
         });
+
+        //If v9, then game.data.version will throw a deprecation warning so test for v9 first
+        EasyExport.isFoundryV8Plus = (game.data.release?.generation >= 9) || (game.data.version?.startsWith("0.8")); 
     }
 
     static async importFromJSON(json, filename) {
@@ -99,7 +105,7 @@ class EasyExport {
             }
             const isFoundryV8 = game.data.version.startsWith("0.8");
             let newCompendium;
-            if (isFoundryV8) {
+            if (EasyExport.isFoundryV8Plus) {
                 newCompendium = await CompendiumCollection.createCompendium(metadata);
             } else {
                 newCompendium = await Compendium.create(metadata);
@@ -113,7 +119,7 @@ class EasyExport {
             ui.notifications.warn(warning);
             ui.notifications.info( game.i18n.localize("EE.ImportingCompendium.CONTENT4"));
 
-            if (isFoundryV8) {
+            if (EasyExport.isFoundryV8Plus) {
                 const options = {pack: newCompendium.collection}
                 newCompendium.documentClass.create(values, options).then(() => isReadyDialog(newCompendium));
             } else { 
@@ -231,7 +237,7 @@ function exportTree(writeFile=true) {
           systemVersion: game.system.data.version
     };
 
-    for (let entity of this.entities) {
+    for (let entity of this.documents) {
         //For this version, convert to JSON and merge into one file
         let data = duplicate(entity.data);
         // Flag some metadata about where the entity was exported some - in case migration is needed later
@@ -245,9 +251,9 @@ function exportTree(writeFile=true) {
         }
     }
     //Prepend and append [] for array re-import
-    const entity = this.entities[0]?.entity;
+    const entity = this.documents[0]?.entity;
     allData = `{"${entity}":[`+allData+"]}";
-    console.log(`Exported ${this.entities.length} of ${this.tabName}`);
+    console.log(`Exported ${this.documents.length} of ${this.tabName}`);
 
     // Trigger file save procedure
     const filename = `fvtt-${this.tabName}.json`;
@@ -284,6 +290,8 @@ function exportAll() {
 Hooks.on(`renderSidebarTab`, async (sidebarTab, html, data) => {
     if (!sidebarTab.popOut) {return;}
     //If this is one of the exportable sections in a pop-out
+    const easyExport = `<a id='easy-export' class='export'> <i class='fas fa-file'></i>${game.i18n.localize("EE.Title")}</a>`;
+    //v0.6.2: Support Macro Folders module which changes the tab name to "macro" 
     switch (sidebarTab.tabName) {
         case "scenes":
         case "actors":
@@ -291,8 +299,8 @@ Hooks.on(`renderSidebarTab`, async (sidebarTab, html, data) => {
         case "journal":
         case "playlists":
         case "tables":
-        case "macros":
-            const easyExport = `<a id='easy-export' class='export'> <i class='fas fa-file'></i>${game.i18n.localize("EE.Title")}</a>`;
+        case "macros":            
+        case "macro":    
             html.find(".window-header").children(".close").before(easyExport);
             html.find("#easy-export").click(exportOrImportDialog.bind(sidebarTab));
             break;

@@ -1,5 +1,5 @@
 # BUGS
-## Support for Foundry 0.8.1
+## Support for Foundry 0.8.5
 - Item detail failing when looking at Compendium (need to check all re-imported Compendia)
 
 # REFACTORING
