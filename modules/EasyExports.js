@@ -103,7 +103,7 @@ class EasyExport {
                 label: filename         //so that you can work out which one to look at
 
             }
-            const isFoundryV8 = game.data.version.startsWith("0.8");
+
             let newCompendium;
             if (EasyExport.isFoundryV8Plus) {
                 newCompendium = await CompendiumCollection.createCompendium(metadata);
