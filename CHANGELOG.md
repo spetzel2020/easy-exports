@@ -1,4 +1,6 @@
 # RELEASE NOTES
+## 0.6.3
+- Fixed: compatibleCoreVersion format is now 9.238
 ## 0.6.2
 - Test for Foundry 0.9
 - Fix deprecation of Directory.entities

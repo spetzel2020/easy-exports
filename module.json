@@ -3,9 +3,9 @@
   "title": "Easy Exports",
   "description": "Easy Exports speeds up backups of your world(s). Now with Import and Full Backup! Instead of right-clicking every Journal, Scene, Actor, etc. simply right-click the section in the Sidebar and pick the Easy Export option from the pop-up window. Works for Macros too!",
   "author" : "Spetzel",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "minimumCoreVersion": "0.6.5",
-  "compatibleCoreVersion": "0.9.238",
+  "compatibleCoreVersion": "9.238",
   "languages": [
     {
       "lang": "en",
