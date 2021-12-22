@@ -4,6 +4,8 @@
 # Easy Exports
 NEW! Use the new **Full Backup** option to do a one-click backup of Scenes, Actors, Journals, Items, Tables, and Macros into one file. And Importing works for Full Backups too.
 
+**IMPORTANT** Easy Exports protects you against accidental deletion of important assets, or allows you to roll back to an earlier configuration. It does not support transferring assets to another world or server because of the difference in internal IDs used.
+
 * **Author**: Spetzel#0103
 * **Version**: 0.6.2
 * **Foundry VTT Compatibility**: 0.6.5-0.9.238
