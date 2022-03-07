@@ -19,7 +19,8 @@
 21-Dec-2021     0.6.2   Set the EasyExport.isFoundryV8Plus variable for different code-paths
                         Fix deprecation of Directory.entities
 7-Mar-2022      0.6.5   Fixed: Issue [#11](https://github.com/spetzel2020/easy-exports/issues/11) ; use documentName not .entity in exportTree()
-                        WARNING: Because of this change, 0.6.5+ will only work with the Foundry 0.8+ data model            
+                        WARNING: Because of this change, 0.6.5+ will only work with the Foundry 0.8+ data model    
+                0.6.5b  Fix use of entity (should be type) in metadata on import                                
 */
 
 //0.5.0 Wrap constants in module name to protect the namespace
@@ -98,17 +99,22 @@ class EasyExport {
             //0.5.1 Check that entity is legal (because Foundry chokes on startup if you've got an invalid Compendium)
             if (!entity || !Object.values(SIDEBAR_TO_ENTITY).includes(entity)) {return;}
 
-            const metadata = {
-                package: "world",
-                entity: entity,
-                label: filename         //so that you can work out which one to look at
-
-            }
-
+            //0.6.5b: For Foundry 0.8+ use type not entity (deprecated)
+            let metadata;
             let newCompendium;
             if (EasyExport.isFoundryV8Plus) {
+                metadata = {
+                    package: "world",
+                    type: entity,
+                    label: filename         //so that you can work out which one to look at
+                }
                 newCompendium = await CompendiumCollection.createCompendium(metadata);
             } else {
+                metadata = {
+                    package: "world",
+                    entity: entity,
+                    label: filename         //so that you can work out which one to look at
+                }
                 newCompendium = await Compendium.create(metadata);
             }
 
