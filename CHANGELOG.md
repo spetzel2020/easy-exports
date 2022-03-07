@@ -1,4 +1,7 @@
 # RELEASE NOTES
+## 0.6.5
+- Fixed: Issue [#11](https://github.com/spetzel2020/easy-exports/issues/11) ; use documentName not .entity
+- Because of this change, will only work with the Foundry 0.8+ data model
 ## 0.6.3
 - Fixed: compatibleCoreVersion format is now 9.238
 ## 0.6.2

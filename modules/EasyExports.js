@@ -18,7 +18,8 @@
 15-Apr-2021     0.6.0c  Check version and use new calls for Foundry 0.8   
 21-Dec-2021     0.6.2   Set the EasyExport.isFoundryV8Plus variable for different code-paths
                         Fix deprecation of Directory.entities
-            
+7-Mar-2022      0.6.5   Fixed: Issue [#11](https://github.com/spetzel2020/easy-exports/issues/11) ; use documentName not .entity in exportTree()
+                        WARNING: Because of this change, 0.6.5+ will only work with the Foundry 0.8+ data model            
 */
 
 //0.5.0 Wrap constants in module name to protect the namespace
@@ -251,7 +252,8 @@ function exportTree(writeFile=true) {
         }
     }
     //Prepend and append [] for array re-import
-    const entity = this.documents[0]?.entity;
+    //0.6.5: In Foundry 0.8+ should use .documentName not .entity
+    const entity = this.documents[0]?.documentName;
     allData = `{"${entity}":[`+allData+"]}";
     console.log(`Exported ${this.documents.length} of ${this.tabName}`);
 
