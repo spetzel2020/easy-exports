@@ -7,8 +7,8 @@ NEW! Use the new **Full Backup** option to do a one-click backup of Scenes, Acto
 **IMPORTANT** Easy Exports protects you against accidental deletion of important assets, or allows you to roll back to an earlier configuration. It does not support transferring assets to another world or server because of the difference in internal IDs used.
 
 * **Author**: Spetzel#0103
-* **Version**: 0.6.5
-* **Foundry VTT Compatibility**: 0.8.6-9
+* **Version**: 0.7.0
+* **Foundry VTT Compatibility**: 0.8.6-10
 * **System Compatibility (If applicable)**: N/A
 * **Translation Support**: en, es (thanks @Viriato139ac#0342!)
 
