@@ -141,3 +141,40 @@ function toISOStringCustom(date) {
     String(date.getUTCSeconds()).padStart(2, "0")
   );
 }
+
+/**
+ * Export data content to be saved to a local file
+ * @param {string} data       Data content converted to a string
+ * @param {string} type       The type of
+ * @param {string} filename   The filename of the resulting download
+ */
+export function saveDataToFile(data, type, filename) {
+  const blob = new Blob([data], { type: type });
+
+  // Create an element to trigger the download
+  let a = document.createElement("a");
+  a.href = window.URL.createObjectURL(blob);
+  a.download = filename;
+
+  // Dispatch a click event to the element
+  a.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, view: window }));
+  setTimeout(() => window.URL.revokeObjectURL(a.href), 100);
+}
+
+/**
+ * Export document data to a JSON file which can be saved by the client and later imported into a different session.
+ * @param {object} [options]      Additional options passed to the {@link ClientDocumentMixin#toCompendium} method
+ * @memberof ClientDocumentMixin#
+ */
+export function exportToJSON(entity, options) {
+  const data = entity.toCompendium(null, options);
+  data.flags.exportSource = {
+    world: game.world.id,
+    system: game.system.id,
+    coreVersion: game.version,
+    systemVersion: game.system.version,
+  };
+  // const filename = ["fvtt", this.documentName, this.name?.slugify(), this.id].filterJoin("-");
+  // saveDataToFile(JSON.stringify(data, null, 2), "text/json", `${filename}.json`);
+  return JSON.stringify(data, null, 2);
+}

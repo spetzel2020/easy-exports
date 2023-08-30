@@ -38,8 +38,28 @@ export const readyHooks = () => {
       case "macros":
       case "macro":
         html.find(".window-header").children(".close").before(easyExportHtml);
-        html.find("#easy-export").click(API.easyExport.exportOrImportDirectoryDialog.bind(sidebarTab));
-        break;
+        html.find("#easy-export").click(EasyExport.exportOrImportDirectoryDialog.bind(sidebarTab));
+      // html.find("#easy-export").mousedown(function(event) {
+      //   switch (event.which) {
+      //       case 1: {
+      //           // alert('Left Mouse button pressed.');
+      //           break;
+      //       }
+      //       case 2: {
+      //           // alert('Middle Mouse button pressed.');
+      //           break;
+      //       }
+      //       case 3: {
+      //           // alert('Right Mouse button pressed.');
+      //           EasyExport.exportOrImportDirectoryDialog(sidebarTab);
+      //           break;
+      //       }
+      //       default: {
+      //           // alert('You have a strange Mouse!');
+      //       }
+      //   }
+      // });
+      // break;
       default:
         break;
     }

@@ -3,7 +3,7 @@
 */
 
 import CONSTANTS from "./constants.js";
-import { log, manageNameForFolder } from "./lib/lib.js";
+import { error, exportToJSON, info, log, manageNameForFolder, saveDataToFile, warn } from "./lib/lib.js";
 
 export class EasyExport {
   static init() {}
@@ -14,13 +14,13 @@ export class EasyExport {
     try {
       importedEntities = JSON.parse(json);
     } catch {
-      ui.notifications.warn(game.i18n.localize("easy-exports.Parsing.TryingFix.WARNING"));
+      warn(game.i18n.localize("easy-exports.Parsing.TryingFix.WARNING"), true);
       //If that doesn't work, try wrapping the input file in []
       try {
         importedEntities = JSON.parse(`{"entities": [` + json + "]}");
-        ui.notifications.info(game.i18n.localize("easy-exports.Parsing.TryingFix.INFO"));
+        info(game.i18n.localize("easy-exports.Parsing.TryingFix.INFO"), true);
       } catch {
-        ui.notifications.error(game.i18n.localize("easy-exports.Parsing.TryingFix.ERROR"));
+        error(game.i18n.localize("easy-exports.Parsing.TryingFix.ERROR"), true);
       }
     }
     EasyExport.importEntity(importedEntities, filename);
@@ -70,14 +70,14 @@ export class EasyExport {
           entityName: entity,
         });
       }
-      ui.notifications.warn(warning);
-      ui.notifications.info(game.i18n.localize("easy-exports.ImportingCompendium.CONTENT4"));
+      warn(warning, true);
+      info(game.i18n.localize("easy-exports.ImportingCompendium.CONTENT4"), true);
 
       const options = {
         pack: newCompendium.collection,
       };
       newCompendium.documentClass.create(values, options).then(() => {
-        isReadyDialog(newCompendium);
+        EasyExport.isReadyDialog(newCompendium);
       });
     }
   }
@@ -96,9 +96,9 @@ export class EasyExport {
     }
   }
 
-  isReadyDialog(compendium, options = {}) {
+  static isReadyDialog(compendium, options = {}) {
     if (!compendium) {
-      ui.notifications.error("Unable to display recovered Compendium");
+      error("Unable to display recovered Compendium", true);
       return;
     }
 
@@ -137,7 +137,7 @@ export class EasyExport {
     });
   }
 
-  exportOrImportDirectoryDialog(options = {}) {
+  static exportOrImportDirectoryDialog(options = {}) {
     return new Promise((resolve) => {
       const dialog = new Dialog(
         {
@@ -147,17 +147,23 @@ export class EasyExport {
             export: {
               icon: '<i class="fas fa-file-export"></i>',
               label: game.i18n.localize("easy-exports.ExportOrImport.Export.BUTTON"),
-              callback: this.exportTree.bind(this),
+              callback: () => {
+                EasyExport.exportTree(this);
+              },
             },
             import: {
               icon: '<i class="fas fa-file-import"></i>',
               label: game.i18n.localize("easy-exports.ExportOrImport.Import.BUTTON"),
-              callback: this.importDialog.bind(this),
+              callback: () => {
+                EasyExport.importDialog(this);
+              },
             },
             backup: {
               icon: '<i class="fas fa-file-export"></i>',
               label: game.i18n.localize("easy-exports.ExportOrImport.FullBackup.BUTTON"),
-              callback: this.exportAll.bind(this),
+              callback: () => {
+                EasyExport.exportAll(this);
+              },
             },
           },
           default: "export",
@@ -169,7 +175,7 @@ export class EasyExport {
     });
   }
 
-  exportOrImportFolderDialog(options = {}) {
+  static exportOrImportFolderDialog(options = {}) {
     return new Promise((resolve) => {
       const dialog = new Dialog(
         {
@@ -179,17 +185,23 @@ export class EasyExport {
             export: {
               icon: '<i class="fas fa-file-export"></i>',
               label: game.i18n.localize("easy-exports.ExportOrImport.Export.BUTTON"),
-              callback: this.exportTree.bind(this),
+              callback: () => {
+                EasyExport.exportTree(this);
+              },
             },
             import: {
               icon: '<i class="fas fa-file-import"></i>',
               label: game.i18n.localize("easy-exports.ExportOrImport.Import.BUTTON"),
-              callback: this.importDialog.bind(this),
+              callback: () => {
+                EasyExport.importDialog(this);
+              },
             },
             backup: {
               icon: '<i class="fas fa-file-export"></i>',
               label: game.i18n.localize("easy-exports.ExportOrImport.FullBackup.BUTTON"),
-              callback: this.exportAll.bind(this),
+              callback: () => {
+                EasyExport.exportAll(this);
+              },
             },
           },
           default: "export",
@@ -201,7 +213,7 @@ export class EasyExport {
     });
   }
 
-  async importDialog() {
+  static async importDialog() {
     //Read the file you want to import
     new Dialog(
       {
@@ -214,7 +226,7 @@ export class EasyExport {
             callback: (html) => {
               const form = html.find("form")[0];
               if (!form.files.length) {
-                return ui.notifications.error("You did not upload a data file!");
+                return error("You did not upload a data file!", true);
               }
               const filename = form.files[0];
               readTextFromFile(filename).then((json) => {
@@ -235,52 +247,59 @@ export class EasyExport {
     ).render(true);
   }
 
-  exportTree(writeFile = true) {
+  static exportTree(directory, writeFile = true) {
     let allData = null;
-    const metadata = {
-      world: game.world.id,
-      system: game.system.id,
-      coreVersion: game.version,
-      systemVersion: game.system.version,
-    };
+    // const metadata = {
+    //   world: game.world.id,
+    //   system: game.system.id,
+    //   coreVersion: game.version,
+    //   systemVersion: game.system.version,
+    // };
 
-    for (let entity of this.documents) {
+    for (let entity of directory.documents) {
       //For this version, convert to JSON and merge into one file
-      let data = duplicate(entity);
+      // let data = duplicate(entity);
       // Flag some metadata about where the entity was exported some - in case migration is needed later
       //Redundant since we're storing this on every element
-      data.flags["exportSource"] = metadata;
-
+      // data.flags["exportSource"] = metadata;
+      // if (allData === null) {
+      //   allData = JSON.stringify(data, null, 2);
+      // } else {
+      //   allData += "," + JSON.stringify(data, null, 2);
+      // }
+      let data = exportToJSON(entity);
       if (allData === null) {
-        allData = JSON.stringify(data, null, 2);
+        allData = data;
       } else {
-        allData += "," + JSON.stringify(data, null, 2);
+        allData += "," + data;
       }
     }
     //Prepend and append [] for array re-import
     //0.6.5: In Foundry 0.8+ should use .documentName not .entity
-    const entity = this.documents[0]?.documentName;
+    const entity = directory.documents[0]?.documentName;
     allData = `{"${entity}":[` + allData + "]}";
-    log(`Exported ${this.documents.length} of ${this.tabName}`);
+    log(`Exported ${directory.documents.length} of ${directory.tabName}`);
 
     // Trigger file save procedure
-    let filename = `fvtt-${this.tabName}.json`;
-    filename = manageNameForFolder(filename, this.tabName);
-    if (writeFile) writeJSONToFile(filename, allData);
+    let filename = `fvtt.json`; //`fvtt-${directory.tabName}.json`;
+    filename = manageNameForFolder(filename, directory.tabName);
+    if (writeFile) {
+      EasyExport.writeJSONToFile(filename, allData);
+    }
     return { filename, allData };
   }
 
-  writeJSONToFile(filename, data) {
+  static writeJSONToFile(filename, data) {
     saveDataToFile(data, "text/json", filename);
     log(`Saved to file ${filename}`);
   }
 
-  exportAll() {
+  static exportAll(directory) {
     let fullBackupData = null;
     for (const entity of Object.keys(CONSTANTS.SIDEBAR_TO_ENTITY)) {
-      const entityClass = ui[entity]; //Helpfully stores this mapping
-      const exportThisEntity = exportTree.bind(entityClass);
-      let { filename, allData } = exportThisEntity(false);
+      // const entityClass = ui[entity]; //Helpfully stores this mapping
+      // const exportThisEntity = EasyExport.exportTree(entityClass);
+      let { filename, allData } = EasyExport.exportTree(entity, false);
       if (fullBackupData === null) {
         fullBackupData = allData;
       } else {
@@ -290,40 +309,40 @@ export class EasyExport {
     //Wrap them all in an entity that can be reimported
     fullBackupData = `{"${CONSTANTS.FULL_BACKUP_KEY}" : [${fullBackupData}]}`;
     let filename = `fvtt-fullBackup.json`;
-    filename = manageNameForFolder(filename, this.tabName);
-    this.writeJSONToFile(filename, fullBackupData); // TODO probably settings
-    this._download(fullBackupData, filename);
+    filename = manageNameForFolder(filename, directory.tabName);
+    EasyExport.writeJSONToFile(filename, fullBackupData); // TODO probably settings
+    // EasyExport._download(fullBackupData, filename);
   }
 
-  _download(data, filename) {
-    // data is the string type, that contains the contents of the file.
-    // filename is the default file name, some browsers allow the user to change this during the save dialog.
+  // static _download(data, filename) {
+  //   // data is the string type, that contains the contents of the file.
+  //   // filename is the default file name, some browsers allow the user to change this during the save dialog.
 
-    // Note that we use octet/stream as the mimetype
-    // this is to prevent some browsers from displaying the
-    // contents in another browser tab instead of downloading the file
-    var blob = new Blob([data], { type: "octet/stream" });
+  //   // Note that we use octet/stream as the mimetype
+  //   // this is to prevent some browsers from displaying the
+  //   // contents in another browser tab instead of downloading the file
+  //   var blob = new Blob([data], { type: "octet/stream" });
 
-    //IE 10+
-    if (window.navigator.msSaveBlob) {
-      window.navigator.msSaveBlob(blob, filename);
-    } else {
-      //Everything else
-      var url = window.URL.createObjectURL(blob);
-      var a = document.createElement("a");
-      document.body.appendChild(a);
-      a.href = url;
-      a.download = filename;
+  //   //IE 10+
+  //   if (window.navigator.msSaveBlob) {
+  //     window.navigator.msSaveBlob(blob, filename);
+  //   } else {
+  //     //Everything else
+  //     var url = window.URL.createObjectURL(blob);
+  //     var a = document.createElement("a");
+  //     document.body.appendChild(a);
+  //     a.href = url;
+  //     a.download = filename;
 
-      setTimeout(() => {
-        //setTimeout hack is required for older versions of Safari
+  //     setTimeout(() => {
+  //       //setTimeout hack is required for older versions of Safari
 
-        a.click();
+  //       a.click();
 
-        //Cleanup
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      }, 1);
-    }
-  }
+  //       //Cleanup
+  //       window.URL.revokeObjectURL(url);
+  //       document.body.removeChild(a);
+  //     }, 1);
+  //   }
+  // }
 }
