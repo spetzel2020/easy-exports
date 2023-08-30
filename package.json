@@ -1,8 +1,8 @@
 {
-	"name": "Border-Control",
-	"title": "Border Control",
-	"description": "Control your tokens borders. Player side configuration of the tokens borders, color and scale. Can prevent borders from showing on player clients for non-owned tokens; no longer hide your mimics behind tiles! Increased accessability for those with visibility impairments",
-	"version": "2.1.3",
+	"name": "easy-exports",
+    "title": "Easy Exports",
+    "description": "Easy Exports speeds up backups of your world(s). Now with Import and Full Backup! Instead of right-clicking every Journal, Scene, Actor, etc. simply right-click the section in the Sidebar and pick the Easy Export option from the pop-up window. Works for Macros too!",
+    "version": "0.8.0",
 	"main": "module.js",
 	"license": "SEE LICENSE IN LICENSE",
 	"private": true,
@@ -45,9 +45,7 @@
 		"dev": "vite",
 		"eslint": "eslint .",
 		"prepare": "husky install",
-		"prettier-format": "prettier --config .prettierrc --write \"./src/**/*.{ts,js,mjs,json,scss,css}\"",
-		"sass": "sass ./src/styles:./dist/tidy5e-sheet/css --no-source-map --style expanded ",
-		"prefix": "postcss dist/tidy5e-sheet/styles/**/*.css  --use autoprefixer -d dist/tidy5e-sheet/styles-prefixed "
+		"prettier-format": "prettier --config .prettierrc --write \"./src/**/*.{ts,js,mjs,json,scss,css}\""
 	},
 	"lint-staged": {
 		"*.{js,css}": "prettier --write"
