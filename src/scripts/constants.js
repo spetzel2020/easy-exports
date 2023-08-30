@@ -12,6 +12,7 @@ const CONSTANTS = {
     playlists: "Playlist",
     tables: "RollTable",
     macros: "Macro",
+    rolltable: "RollTable",
   },
 };
 

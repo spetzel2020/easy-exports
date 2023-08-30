@@ -28,11 +28,16 @@ export class EasyExport {
 
   static async importEntity(importedEntities, filename) {
     //Backup method of extracting the entity from the filename
-    let entityFromFilename;
-    try {
-      const extractedSidebar = filename?.split("-")[1];
-      entityFromFilename = CONSTANTS.SIDEBAR_TO_ENTITY[extractedSidebar];
-    } catch {}
+    const extractedSidebar = Object.keys(importedEntities)[0]; //filename?.split("-")[1];
+    if (!extractedSidebar) {
+      warn(`Cannot retrieve sidebar`, true);
+      return;
+    }
+    let entityFromFilename = CONSTANTS.SIDEBAR_TO_ENTITY[extractedSidebar.toLowerCase()];
+    if (!entityFromFilename) {
+      warn(`Cannot retrieve entity`, true);
+      return;
+    }
 
     //Should be {entity: [<array of entities>]}
     if (importedEntities) {
@@ -213,6 +218,75 @@ export class EasyExport {
     });
   }
 
+  /**
+   * Render an import dialog for updating the data related to this Document through an exported JSON file
+   * @returns {Promise<void>}
+   * @memberof ClientDocumentMixin#
+   */
+  async importFromJSONDialog() {
+    new Dialog(
+      {
+        title: `Import Data: ${this.name}`,
+        content: await renderTemplate("templates/apps/import-data.html", {
+          hint1: game.i18n.format("DOCUMENT.ImportDataHint1", { document: this.documentName }),
+          hint2: game.i18n.format("DOCUMENT.ImportDataHint2", { name: this.name }),
+        }),
+        buttons: {
+          import: {
+            icon: '<i class="fas fa-file-import"></i>',
+            label: "Import",
+            callback: (html) => {
+              const form = html.find("form")[0];
+              if (!form.data.files.length) return ui.notifications.error("You did not upload a data file!");
+              readTextFromFile(form.data.files[0]).then((json) => this.importFromJSON(json));
+            },
+          },
+          no: {
+            icon: '<i class="fas fa-times"></i>',
+            label: "Cancel",
+          },
+        },
+        default: "import",
+      },
+      {
+        width: 400,
+      }
+    ).render(true);
+  }
+
+  // /**
+  //  * Render an import dialog for updating the data related to this Document through an exported JSON file
+  //  * @returns {Promise<void>}
+  //  * @memberof ClientDocumentMixin#
+  //  */
+  // async importFromJSONDialog() {
+  //   new Dialog({
+  //     title: `Import Data: ${this.name}`,
+  //     content: await renderTemplate("templates/apps/import-data.html", {
+  //       hint1: game.i18n.format("DOCUMENT.ImportDataHint1", {document: this.documentName}),
+  //       hint2: game.i18n.format("DOCUMENT.ImportDataHint2", {name: this.name})
+  //     }),
+  //     buttons: {
+  //       import: {
+  //         icon: '<i class="fas fa-file-import"></i>',
+  //         label: "Import",
+  //         callback: html => {
+  //           const form = html.find("form")[0];
+  //           if ( !form.data.files.length ) return ui.notifications.error("You did not upload a data file!");
+  //           readTextFromFile(form.data.files[0]).then(json => this.importFromJSON(json));
+  //         }
+  //       },
+  //       no: {
+  //         icon: '<i class="fas fa-times"></i>',
+  //         label: "Cancel"
+  //       }
+  //     },
+  //     default: "import"
+  //   }, {
+  //     width: 400
+  //   }).render(true);
+  // }
+
   static async importDialog() {
     //Read the file you want to import
     new Dialog(
@@ -224,8 +298,8 @@ export class EasyExport {
             icon: '<i class="fas fa-file-import"></i>',
             label: "Import",
             callback: (html) => {
-              const form = html.find("form")[0];
-              if (!form.files.length) {
+              const form = html.find("input")[0];
+              if (!form.files?.length) {
                 return error("You did not upload a data file!", true);
               }
               const filename = form.files[0];
@@ -240,6 +314,11 @@ export class EasyExport {
           },
         },
         default: "import",
+        // render: (html) => {
+        //   html.on('change','input' , function(){
+        //     log("");
+        //   });
+        // }
       },
       {
         width: 400,
