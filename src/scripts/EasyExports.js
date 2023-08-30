@@ -35,7 +35,7 @@ export class EasyExport {
     }
     let entityFromFilename = CONSTANTS.SIDEBAR_TO_ENTITY[extractedSidebar.toLowerCase()];
     if (!entityFromFilename) {
-      warn(`Cannot retrieve entity`, true);
+      warn(`Cannot retrieve entity ${extractedSidebar}`, true);
       return;
     }
 

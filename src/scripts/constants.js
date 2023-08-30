@@ -13,6 +13,13 @@ const CONSTANTS = {
     tables: "RollTable",
     macros: "Macro",
     rolltable: "RollTable",
+    journalentry: "JournalEntry",
+    actor: "Actor",
+    item: "Item",
+    scene: "Scene",
+    playlist: "Playlist",
+    cards: "Card",
+    card: "Card",
   },
 };
 

@@ -29,6 +29,7 @@ export const readyHooks = () => {
     </a>`;
     //v0.6.2: Support Macro Folders module which changes the tab name to "macro"
     switch (sidebarTab.tabName) {
+      case "cards":
       case "scenes":
       case "actors":
       case "items":

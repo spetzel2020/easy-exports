@@ -178,3 +178,183 @@ export function exportToJSON(entity, options) {
   // saveDataToFile(JSON.stringify(data, null, 2), "text/json", `${filename}.json`);
   return JSON.stringify(data, null, 2);
 }
+
+// /**
+//  * Transform the Document data to be stored in a Compendium pack.
+//  * Remove any features of the data which are world-specific.
+//  * @param {CompendiumCollection} [pack]   A specific pack being exported to
+//  * @param {object} [options]              Additional options which modify how the document is converted
+//  * @param {boolean} [options.clearFlags=false]      Clear the flags object
+//  * @param {boolean} [options.clearSource=true]      Clear any prior sourceId flag
+//  * @param {boolean} [options.clearSort=true]        Clear the currently assigned sort order
+//  * @param {boolean} [options.clearFolder=false]     Clear the currently assigned folder
+//  * @param {boolean} [options.clearOwnership=true]   Clear document ownership
+//  * @param {boolean} [options.clearState=true]       Clear fields which store document state
+//  * @param {boolean} [options.keepId=false]          Retain the current Document id
+//  * @returns {object}                      A data object of cleaned data suitable for compendium import
+//  * @memberof ClientDocumentMixin#
+//  */
+// function toCompendium(
+//   pack,
+//   {
+//     clearSort = true,
+//     clearFolder = false,
+//     clearFlags = false,
+//     clearSource = true,
+//     clearOwnership = true,
+//     clearState = true,
+//     keepId = false,
+//   } = {}
+// ) {
+//   const data = this.toObject();
+//   if (!keepId) delete data._id;
+//   if (clearSort) delete data.sort;
+//   if (clearFolder) delete data.folder;
+//   if (clearFlags) delete data.flags;
+//   if (clearSource) delete data.flags?.core?.sourceId;
+//   if (clearOwnership) delete data.ownership;
+//   if (clearState) delete data.active;
+//   return data;
+// }
+
+// /**
+//  * Export all Documents contained in this Folder to a given Compendium pack.
+//  * Optionally update existing Documents within the Pack by name, otherwise append all new entries.
+//  * @param {CompendiumCollection} pack       A Compendium pack to which the documents will be exported
+//  * @param {object} [options]                Additional options which customize how content is exported.
+//  *                                          See {@link ClientDocumentMixin#toCompendium}
+//  * @param {boolean} [options.updateByName=false]    Update existing entries in the Compendium pack, matching by name
+//  * @param {boolean} [options.keepId=false]          Retain the original _id attribute when updating an entity
+//  * @param {boolean} [options.keepFolders=false]     Retain the existing Folder structure
+//  * @param {string} [options.folder]                 A target folder id to which the documents will be exported
+//  * @returns {Promise<CompendiumCollection>}  The updated Compendium Collection instance
+//  */
+// export async function exportToFile(json, options = {}) {
+//   options.updateByName = false;
+//   options.keepId = true;
+//   options.keepFolders = true;
+//   options.folder = null;
+
+//   const updateByName = false; //options.updateByName ?? false;
+//   // const index = await pack.getIndex();
+//   // ui.notifications.info(game.i18n.format("FOLDER.Exporting", {
+//   //   type: this.type,
+//   //   compendium: pack.collection
+//   // }));
+//   options.folder ||= null;
+
+//   // Classify creations and updates
+//   const foldersToCreate = [];
+//   const foldersToUpdate = [];
+//   const documentsToCreate = [];
+//   const documentsToUpdate = [];
+
+//   // Ensure we do not overflow maximum allowed folder depth
+//   const originDepth = this.ancestors.length;
+//   const targetDepth = 0; //options.folder ? ((pack.folders.get(options.folder)?.ancestors.length ?? 0) + 1) : 0;
+
+//   /**
+//    * Recursively extract the contents and subfolders of a Folder into the Pack
+//    * @param {Folder} folder       The Folder to extract
+//    * @param {number} [_depth]     An internal recursive depth tracker
+//    * @private
+//    */
+//   const _extractFolder = async (folder, _depth = 0) => {
+//     // const folderData = folder.toCompendium(pack, {...options, clearSort: false, keepId: true});
+//     const folderData = folder.toCompendium(pack, { ...options, clearSort: false, keepId: true });
+
+//     if (options.keepFolders) {
+//       // Ensure that the exported folder is within the maximum allowed folder depth
+//       const currentDepth = _depth + targetDepth - originDepth;
+//       const exceedsDepth = currentDepth > 4; //pack.maxFolderDepth;
+//       if (exceedsDepth) {
+//         throw new Error(`Folder "${folder.name}" exceeds maximum allowed folder depth of ${4}`);
+//       }
+
+//       // Re-parent child folders into the target folder or into the compendium root
+//       if (folderData.folder === this.id) folderData.folder = options.folder;
+
+//       // Classify folder data for creation or update
+//       if (folder !== this) {
+//         const existing = updateByName ? pack.folders.find((f) => f.name === folder.name) : pack.folders.get(folder.id);
+//         if (existing) {
+//           folderData._id = existing._id;
+//           foldersToUpdate.push(folderData);
+//         } else foldersToCreate.push(folderData);
+//       }
+//     }
+
+//     // Iterate over Documents in the Folder, preparing each for export
+//     for (let doc of folder.contents) {
+//       const data = doc.toCompendium(pack, options);
+
+//       // Re-parent immediate child documents into the target folder.
+//       if (data.folder === this.id) data.folder = options.folder;
+//       // Otherwise retain their folder structure if keepFolders is true.
+//       else data.folder = options.keepFolders ? folderData._id : options.folder;
+
+//       // Generate thumbnails for Scenes
+//       if (doc instanceof Scene) {
+//         const { thumb } = await doc.createThumbnail({ img: data.background.src });
+//         data.thumb = thumb;
+//       }
+
+//       // Classify document data for creation or update
+//       const existing = updateByName ? index.find((i) => i.name === data.name) : index.find((i) => i._id === data._id);
+//       if (existing) {
+//         data._id = existing._id;
+//         documentsToUpdate.push(data);
+//       } else documentsToCreate.push(data);
+//       console.log(`Prepared "${data.name}" for export to "${pack.collection}"`);
+//     }
+
+//     // Iterate over subfolders of the Folder, preparing each for export
+//     for (let c of folder.children) await _extractFolder(c.folder, _depth + 1);
+//   };
+
+//   // Prepare folders for export
+//   try {
+//     await _extractFolder(this, 0);
+//   } catch (err) {
+//     const msg = `Cannot export Folder "${this.name}" to Compendium pack "${pack.collection}":\n${err.message}`;
+//     return ui.notifications.error(msg, { console: true });
+//   }
+
+//   // Create and update Folders
+//   if (foldersToUpdate.length) {
+//     await this.constructor.updateDocuments(foldersToUpdate, {
+//       pack: pack.collection,
+//       diff: false,
+//       recursive: false,
+//       render: false,
+//     });
+//   }
+//   if (foldersToCreate.length) {
+//     await this.constructor.createDocuments(foldersToCreate, {
+//       pack: pack.collection,
+//       keepId: true,
+//       render: false,
+//     });
+//   }
+
+//   // Create and update Documents
+//   const cls = pack.documentClass;
+//   if (documentsToUpdate.length)
+//     await cls.updateDocuments(documentsToUpdate, {
+//       pack: pack.collection,
+//       diff: false,
+//       recursive: false,
+//       render: false,
+//     });
+//   if (documentsToCreate.length)
+//     await cls.createDocuments(documentsToCreate, {
+//       pack: pack.collection,
+//       keepId: options.keepId,
+//       render: false,
+//     });
+
+//   // Re-render the pack
+//   ui.notifications.info(game.i18n.format("FOLDER.ExportDone", { type: this.type, compendium: pack.collection }));
+//   pack.render(false);
+//   return pack;
+// }
